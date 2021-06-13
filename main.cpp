@@ -1,38 +1,60 @@
 #include <iostream>
 #include <string.h>
-#include <winuser.h>
+#include <tchar.h>
 #include <windows.h>
 #include <stdbool.h>
-#define ADNUMBER 2
+#include <winuser.h>
+#include <Mfidl.h>
+#define ADNUMBER 1
 
 
-HWND check_processes(wchar_t const* processName){
-    HWND search = FindWindow(NULL, processName);
+//Return handle of spotify ad. NULL pointer if no ad is playing
+HWND check_processes(LPCWSTR processName){
+    HWND search = FindWindowW(NULL, processName);
     return search;
 }
-
+//Mute spotify.exe application
 void muteVolume() {
-
     return;
+
 }
+//Unmute spotify.exe application
+void unmuteVolume() {
+   
+    return;
 
-
+}
 
 int main() {
 
-    wchar_t const *possible_ads[] = { 
+    //Window name of all possible spotify ads. 
+    LPCWSTR possible_ads[] = { 
         L"Advertisement",
-        L"Spotify Free"
     };
-    
-    while (true) {
-        bool current_ad = false;
 
+    bool muted = false;
+    while (true) {
+
+
+
+        bool current_ad = false;
+        //Iterate over all possible ad names and check if they exists in processes
+        //If they do, mute, otherwise unmute
         for (int i = 0; i < ADNUMBER; i++) {
             if (check_processes(possible_ads[i])) {
+                HWND process = check_processes(possible_ads[i]);
                 muteVolume();
-
+                muted = true;
+                current_ad = true;
             }
+            if (current_ad) {
+                break;
+            }
+        }
+        if (!current_ad && muted) {
+            unmuteVolume();
+            muted = false;
+        } else {
         }
     }
 
