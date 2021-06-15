@@ -4,7 +4,8 @@
 #include <windows.h>
 #include <stdbool.h>
 #include <winuser.h>
-#include <Mfidl.h>
+#include <endpointvolume.h>
+#include <mmdeviceapi.h>
 #define ADNUMBER 1
 
 
@@ -15,18 +16,18 @@ HWND check_processes(LPCWSTR processName){
 }
 //Mute spotify.exe application
 void muteVolume() {
+    system("nircmd muteappvolume spotify.exe 1");
     return;
 
 }
 //Unmute spotify.exe application
 void unmuteVolume() {
-   
+    system("nircmd muteappvolume spotify.exe 0");
     return;
 
 }
 
 int main() {
-
     //Window name of all possible spotify ads. 
     LPCWSTR possible_ads[] = { 
         L"Advertisement",
